@@ -4,26 +4,19 @@ var moveLeft = 0;
 var moveUp = 0;
 
 var newHeight = 300;
+
 /*-----Functions-----*/
 
-function urlBackgroundImage(url){
-    bgImg.style.backgroundImage = "url("+url+")";
-}
-
 function changeTitle(titleInput){
-    var titleElem = document.getElementsByClassName("title");
+    var titleElem = document.getElementById("titleDiv");
     
     titleElem.innerHTML = titleInput;
-    
-    document.getElementById("title").value = "";
 }
 
 function changeDescription(descInput){
-    var descElem = document.getElementsByClassName("description");
+    var descElem = document.getElementById("descriptionDiv");
     
     descElem.innerHTML = descInput;
-    
-    document.getElementById("description").value = "";
 }
 
 function openControlPanel(position){
@@ -32,6 +25,13 @@ function openControlPanel(position){
     } else if (position == 2){
         document.getElementById("controls").style.bottom = "0px";
     }
+}
+
+function changeColor(){
+    var color = document.getElementById("colorChange").value;
+    
+    document.getElementById("descriptionDiv").style.color = color; 
+    document.getElementById("titleDiv").style.color = color; 
 }
 
 function moveBackground(move){    
@@ -63,35 +63,35 @@ function sizeChange(input){
 }
 
 function changeBackgroundImage(select_img){
-    if(select_img == 1){
+    if(select_img == "horse"){
         bgImg.style.backgroundImage = "url(img/bg1.jpg)"
-    } else if(select_img == 2){
+    } else if(select_img == "night"){
         bgImg.style.backgroundImage = "url(img/bg2.jpg)"
-    } else if(select_img == 3){
+    } else if(select_img == "mountain"){
         bgImg.style.backgroundImage = "url(img/bg3.jpg)"
-    } else if(select_img == 4){
+    } else if(select_img.indexOf("epic") != -1){
         bgImg.style.backgroundImage = "url(img/bg4.jpg)"
+    } else {
+        bbgImg.style.backgroundImage = "url("+url+")";
     }
 }
 
-function backgroundImage(localImg){
-    if (inpBG == "horse"){
-            
-        } else if (inpBG == "night"){
-            
-        } else if (inpBG == "mountain"){
-            
-        } else if (inpBG.indexOf("epic") != -1){
-            
-        } 
-}
-
 function createNewElem(inpBG){
-    var ndiv = document.createElement("div");
     var nimg = document.createElement("img");
     
     nimg.className = "newImg col-xs-12 col-sm-6 col-md-4 col-lg-3";
-    nimg.src = inpBG;
+    
+    if (inpBG == "horse"){
+        nimg.src = "img/bg1.jpg";
+    } else if (inpBG == "night"){
+        nimg.src = "img/bg2.jpg";
+    } else if (inpBG == "mountain"){
+        nimg.src = "img/bg3.jpg";
+    } else if (inpBG.indexOf("epic") != -1){
+        nimg.src = "img/bg4.jpg";
+    } else {
+        nimg.src = inpBG;
+    }
     
     document.getElementById("display").appendChild(nimg);
 }
@@ -132,18 +132,24 @@ document.getElementById("bgInput").addEventListener("keyup", function(ev){
     inputCode = document.getElementById("bgInput").value;
     
     if(ev.keyCode == 13){
-        if (inputCode == "horse"){
-            changeBackgroundImage(1);
-        } else if (inputCode == "night"){
-            changeBackgroundImage(2);
-        } else if (inputCode == "mountain"){
-            changeBackgroundImage(3);
-        } else if (inputCode.indexOf("epic") != -1){
-            changeBackgroundImage(4);
-        } else {
-            urlBackgroundImage(inputCode);
-        }
+        changeBackgroundImage(inputCode);
     }
+})
+
+document.getElementById("title").addEventListener("change", function(ev){
+    inputTitle = document.getElementById("title").value;
+    
+    changeTitle(inputTitle);
+})
+
+document.getElementById("description").addEventListener("change", function(ev){
+    inputDesc = document.getElementById("description").value;
+    
+    changeDescription(inputDesc);
+})
+
+document.getElementById("colorChange").addEventListener("change", function(){
+    changeColor();
 })
 
 document.getElementById("addComponent").addEventListener("click", function(){
